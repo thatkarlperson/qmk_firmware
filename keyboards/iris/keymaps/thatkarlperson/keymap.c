@@ -14,10 +14,15 @@ enum custom_keycodes {
   ADJUST,
 };
 
+// Alt doubles as Tab; Ctrl as Enter.
 #define LATAB LALT_T(KC_TAB)
 #define RATAB RALT_T(KC_TAB)
 #define LCTEN LCTL_T(KC_ENT)
 #define RCTEN RCTL_T(KC_ENT)
+
+// Terminal switching keys
+#define TM_LEFT LSFT(KC_LEFT)
+#define TM_RGHT LSFT(KC_RGHT)
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -75,7 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-                                    _______, _______, LSFT(KC_LEFT),       LSFT(KC_RGHT), _______, _______
+                                    _______, _______, TM_LEFT,                   TM_RGHT, _______, _______
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
   )
 };
