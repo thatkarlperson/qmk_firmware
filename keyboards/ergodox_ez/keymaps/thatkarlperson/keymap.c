@@ -1,14 +1,16 @@
 #include QMK_KEYBOARD_H
 #include "version.h"
 
-#define BASE 0 // default layer
-#define LOWER 1 // symbols
-#define RAISE 2 // media keys
+#define _BASE 0 // default layer
+#define _LOWER 1 // symbols
+#define _RAISE 2 // media keys
 
 enum custom_keycodes {
   EPRM = SAFE_RANGE,
   VRSN,
-  RGB_SLD
+  RGB_SLD,
+  LOWER,
+  RAISE
 };
 
 // Alt doubles as Tab; Ctrl as Enter.
@@ -43,7 +45,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 |      |ace   | Down |       |  ]   |       |      |
  *                                 `--------------------'       `---------------------'
  */
-[BASE] = LAYOUT_ergodox(
+[_BASE] = LAYOUT_ergodox(
   // left hand
   KC_GESC,         KC_1,        KC_2,          KC_3,    KC_4,    KC_5,    TM_LEFT,
   LATAB,           KC_Q,        KC_W,          KC_F,    KC_P,    KC_G,    KC_PGUP,
@@ -84,22 +86,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 |      |      |      |       |      |      |      |
  *                                 `--------------------'       `--------------------'
  */
-[LOWER] = LAYOUT_ergodox(
+[_LOWER] = LAYOUT_ergodox(
   // left hand
-  VRSN,    KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_TRNS,
-  KC_TRNS, KC_EXLM, KC_AT,   KC_LCBR, KC_RCBR, KC_PIPE, KC_TRNS,
-  KC_TRNS, KC_HASH, KC_DLR,  KC_LPRN, KC_RPRN, KC_GRV,
-  KC_TRNS, KC_PERC, KC_CIRC, KC_LBRC, KC_RBRC, KC_TILD, KC_TRNS,
-  EPRM,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+  KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_TRNS,
+  VRSN,    KC_TRNS, KC_TRNS, KC_UP,   KC_TRNS, KC_TRNS, KC_TRNS,
+  DEBUG,   KC_TRNS, KC_LEFT, KC_DOWN, KC_RGHT, KC_TRNS,
+  EPRM,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
                                                RGB_MOD, KC_TRNS,
                                                         KC_TRNS,
                                       RGB_VAD, RGB_VAI, KC_TRNS,
   // right hand
   KC_TRNS, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
-  KC_TRNS, KC_UP,   KC_7,    KC_8,    KC_9,    KC_ASTR, KC_F12,
-  KC_DOWN, KC_4,    KC_5,    KC_6,    KC_PLUS, KC_TRNS,
-  KC_TRNS, KC_AMPR, KC_1,    KC_2,    KC_3,    KC_BSLS, KC_TRNS,
-  KC_TRNS, KC_DOT,  KC_0,    KC_EQL,  KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_QUOT, KC_DQUO, KC_LBRC, KC_RBRC, KC_F12,
+           KC_MINS, KC_PLUS, KC_EQL,  KC_LCBR, KC_RCBR, KC_TRNS,
+  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, 
+  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
   RGB_TOG, RGB_SLD,
   KC_TRNS,
   KC_TRNS, RGB_HUD, RGB_HUI
@@ -125,7 +127,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 |      |      |      |       |      |      |      |
  *                                 `--------------------'       `--------------------'
  */
-[RAISE] = LAYOUT_ergodox(
+[_RAISE] = LAYOUT_ergodox(
   // left hand
   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
   KC_TRNS, KC_TRNS, KC_TRNS, KC_MS_U, KC_TRNS, KC_TRNS, KC_TRNS,
@@ -147,9 +149,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 };
 
+/*
 const uint16_t PROGMEM fn_actions[] = {
     [1] = ACTION_LAYER_TAP_TOGGLE(LOWER)                // FN1 - Momentary Layer 1 (Symbols)
 };
+*/
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
@@ -165,6 +169,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         rgblight_mode(1);
         return false;
       #endif
+
+    case LOWER:
+      if (record->event.pressed) {
+        layer_on(_LOWER);
+      } else {
+        layer_off(_LOWER);
+      }
+      return false;
+      break;
+    case RAISE:
+      if (record->event.pressed) {
+        layer_on(_RAISE);
+      } else {
+        layer_off(_RAISE);
+      }
+      return false;
+      break;
+
     }
   }
   return true;
