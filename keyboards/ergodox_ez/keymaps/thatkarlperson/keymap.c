@@ -9,8 +9,6 @@ enum custom_keycodes {
   EPRM = SAFE_RANGE,
   VRSN,
   RGB_SLD,
-  LOWER,
-  RAISE
 };
 
 // Alt doubles as Tab; Ctrl as Enter.
@@ -18,6 +16,9 @@ enum custom_keycodes {
 #define RATAB RALT_T(KC_TAB)
 #define LCTEN LCTL_T(KC_ENT)
 #define RCTEN RCTL_T(KC_ENT)
+
+#define LOWER MO(_LOWER)
+#define RAISE MO(_RAISE)
 
 // Terminal switching keys
 #define TM_LEFT LSFT(KC_LEFT)
@@ -169,23 +170,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         rgblight_mode(1);
         return false;
       #endif
-
-    case LOWER:
-      if (record->event.pressed) {
-        layer_on(_LOWER);
-      } else {
-        layer_off(_LOWER);
-      }
-      return false;
-      break;
-    case RAISE:
-      if (record->event.pressed) {
-        layer_on(_RAISE);
-      } else {
-        layer_off(_RAISE);
-      }
-      return false;
-      break;
 
     }
   }
