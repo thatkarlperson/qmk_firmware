@@ -37,6 +37,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* define tapping term */
 #define TAPPING_TERM 250
+#define SOFT_SERIAL_PIN D2
+#define SERIAL_USE_MULTI_TRANSACTION
 
 /* define if matrix has ghost */
 //#define MATRIX_HAS_GHOST
